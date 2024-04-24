@@ -1,0 +1,37 @@
+plugins {
+    id 'groovy'
+    id 'java-gradle-plugin' // Java Gradle Plugin
+    id 'maven-publish'
+}
+
+group = 'org.weinian.plugin'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    gradlePluginPortal() // so that external plugins can be resolved in dependencies section
+}
+
+dependencies {
+    implementation 'com.github.spotbugs.snom:spotbugs-gradle-plugin:5.1.4'
+}
+
+
+
+
+publishing {
+    repositories {
+        maven {
+            // 使用 宽松协议
+            allowInsecureProtocol = true
+            if (project.version.endsWith('-SNAPSHOT')) {
+                url = "xxxx"
+            } else {
+                url = "xxxxx"
+            }
+//            credentials {
+//                username ''
+//                password ''
+//            }
+        }
+    }
+}

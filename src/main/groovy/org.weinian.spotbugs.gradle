@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    // NOTE: external plugin version is specified in implementation dependency artifact of the project's build file
+    id 'com.github.spotbugs'
+}
+spotbugsMain {
+    reports {
+        html {
+            required = true
+            outputLocation = file("$buildDir/reports/spotbugs/main/spotbugs.html")
+            stylesheet = 'fancy-hist.xsl'
+        }
+    }
+}
+
+spotbugs {
+    ignoreFailures = false
+    showStackTraces = true
+    showProgress = true
+    effort = 'default'
+    reportLevel = 'default'
+    //    visitors = [ 'FindSqlInjection', 'SwitchFallthrough' ]
+    //    omitVisitors = [ 'FindNonShortCircuit' ]
+    omitVisitors = [ 'UnnecessaryStoreBeforeReturn', 'OverlyConcreteParameter', 'CyclomaticComplexity', 'CollectionNamingConfusion', 'FindReturnRef', 'PresizeCollections', 'ClassEnvy']
+    //    reportsDir = file("$buildDir/spotbugs")
+    //    includeFilter = file("include.xml")
+    //    excludeFilter = file("exclude.xml")
+    //    baselineFile = file("baseline.xml")
+    // 可以指定配置的范围, 减少分析时间, 比如之分析某个项目
+    //    onlyAnalyze = [ 'com.foobar.MyClass', 'com.foobar.mypkg.*' ]
+    maxHeapSize = '1g'
+    extraArgs = ['-nested:false']
+    //指定中文环境
+    jvmArgs = ['-Duser.language=zh']
+}
+dependencies {
+    spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.12.0'
+    spotbugsPlugins 'com.mebigfatguy.sb-contrib:sb-contrib:7.6.0'
+
+    //配置spotbug的版本. 不建议配置, 使用默认对应版本即可
+    // spotbugs 'com.github.spotbugs:spotbugs:4.7.1'
+
+}
